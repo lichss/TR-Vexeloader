@@ -1,0 +1,74 @@
+# Visual Studio 编译输出
+Debug/
+Release/
+x64/
+x86/
+build/
+out/
+
+# MSBuild 文件
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio 文件缓存
+*.vs/
+.cache/
+*.cache
+
+# 项目和解决方案文件的临时文件
+*.tmp
+*.bak
+*.old
+*.orig
+
+# 编译器生成的文件
+*.obj
+*.exe
+*.pdb
+*.idb
+*.pch
+*.ilk
+*.lib
+*.exp
+*.dll
+*.manifest
+*.res
+*.sbr
+*.tlog
+*.ipch
+
+# 链接器生成的文件
+*.map
+*.iobj
+*.ilks
+
+# 其他编译器/构建工具生成的文件
+*.log
+*.xml
+*.json
+
+# Windows 资源管理器缩略图
+Thumbs.db
+
+# Windows 文件夹设置
+Desktop.ini
+
+# Office 文档
+*.doc
+*.xls
+*.ppt
+*.odt
+*.ods
+*.gdoc
+*.gsheet
+
+# VS Code 编辑器
+.vscode/
+
+# 其他
+*.swp  # Vim编辑器交换文件
+*.swo
+*.swn
+*.lock  # 用于锁定的文件
