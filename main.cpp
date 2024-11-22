@@ -13,7 +13,16 @@ int main(int argc, char *argv[])
     qInfo() << argv[2];
     qInfo() << argv[3];
 
+    QStringList qss = {
+        argv[0],
+        argv[1],
+        argv[2],
+        argv[3],
+    
+    };
+
     w.receivArgvector(argv[1], argv[2], argv[3]); 
+    w.receivArgvector(qss);
     w.show();
 
     QString agrs1 = argv[1];
