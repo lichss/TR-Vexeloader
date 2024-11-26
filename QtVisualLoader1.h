@@ -23,11 +23,20 @@ public:
     QtVisualLoader1(QWidget *parent = nullptr);
     ~QtVisualLoader1();
 
+    QString filePath;
+    
+
     QString argv1;
     QString argv2;
     QString argv3;
     QString argv4;
     QStringList argList;
+
+    int adamsRadioButton();
+
+    int UG6RadioButton();
+
+    int ansysRadioButton();
 
     int receivArgvector(QString argv1, QString argv2, QString argv3);
     int receivArgvector(QStringList argv);

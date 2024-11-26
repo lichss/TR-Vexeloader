@@ -15,10 +15,10 @@ int main(int argc, char *argv[])
     PROCESSL::ProcessCmdset pcmd;
     QString filepath;
     QStringList arglist;
-    pcmd.readJson("./cmdset.json",filepath,arglist);
+    //pcmd.readJson("./cmdset.json",filepath,arglist,2);
 
-    qInfo() << filepath;
-    qInfo() << arglist[0] << arglist[1];
+    //qInfo() << filepath;
+    //qInfo() << arglist[0] << arglist[1];
 
     
     qInfo() << argv[1];

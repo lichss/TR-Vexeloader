@@ -8,8 +8,10 @@ PROCESSL::ProcessCmdset::~ProcessCmdset()
 {
 }
 
-int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,QStringList& rlist)
+int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,QStringList& rlist,int index)
 {
+
+
 	QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qInfo() << "Cannot open file:" << fileName;
@@ -33,7 +35,10 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
     QJsonObject jsonObject = jsonDoc.object();
     QJsonArray collections = jsonObject.value("collections").toArray();
 
-    QJsonObject selectedCollection = collections[0].toObject();
+    rfilepath.clear();
+    rlist.clear();
+
+    QJsonObject selectedCollection = collections[index].toObject();
     rfilepath = selectedCollection.value("filepath").toString();
     QJsonArray argArray = selectedCollection.value("argument").toArray();
 

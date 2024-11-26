@@ -16,14 +16,13 @@ namespace PROCESSL {
 		QString executebleFilePath;
 		QStringList argList;
 		
-
 	public:
 
 
 		ProcessCmdset();
 		~ProcessCmdset();
 
-		int readJson(const QString fileName,QString& rfilepath,QStringList& rlist);
+		int readJson(const QString fileName,QString& rfilepath,QStringList& rlist,int index);
 	};
 
 

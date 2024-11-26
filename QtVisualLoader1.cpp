@@ -1,14 +1,63 @@
 #include "QtVisualLoader1.h"
+#include "processcmdset.h"
 
 QtVisualLoader1::QtVisualLoader1(QWidget *parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
     connect(ui.pushButton, &QPushButton::pressed, this, &QtVisualLoader1::button0Pressed);
+    connect(ui.adams_radioButton,&QRadioButton::clicked,this,&QtVisualLoader1::adamsRadioButton);
+    connect(ui.ug_radioButton,&QRadioButton::clicked,this,&QtVisualLoader1::UG6RadioButton);
+    connect(ui.ansys_radioButton,&QRadioButton::clicked,this,&QtVisualLoader1::ansysRadioButton);
+
+
+
 }
 
 QtVisualLoader1::~QtVisualLoader1()
 {}
+
+
+int QtVisualLoader1::adamsRadioButton() {
+
+    qInfo() << "adams radio button.";
+    PROCESSL::ProcessCmdset pcmd;
+    pcmd.readJson("cmdset.json",this->filePath,this->argList,0);
+
+    qInfo() <<"now file path:" << this->filePath;
+    /*index 0 = adams*/
+    return 0;
+
+}
+
+int QtVisualLoader1::UG6RadioButton() {
+
+    qInfo() << "Ug radio button.";
+
+    PROCESSL::ProcessCmdset pcmd;
+    pcmd.readJson("cmdset.json",this->filePath,this->argList,1);
+
+    qInfo() <<"now file path:" << this->filePath;
+
+    /*index 1 = UG*/
+
+    return 0;
+
+}
+
+int QtVisualLoader1::ansysRadioButton() {
+
+    qInfo() << "ansys radio button.";
+    PROCESSL::ProcessCmdset pcmd;
+    pcmd.readJson("cmdset.json",this->filePath,this->argList,2);
+
+    qInfo() <<"now file path:" << this->filePath;
+
+    /*index 2 = ansys*/
+    return 0;
+
+}
+
 
 
 int QtVisualLoader1::receivArgvector(QString iargv1,QString iargv2,QString iargv3) {
@@ -45,12 +94,12 @@ int QtVisualLoader1::button0Pressed() {
     ui.label_3->setText(argv3);
     */
 
-    ui.label->setText(argList[0]);
-    ui.label_2->setText(argList[1]);
-    ui.label_3->setText(argList[2]);
-    ui.label_4->setText(argList[3]);
+    ui.label->setText(this->filePath);
+    ui.label_2->setText(argList[0]);
+    ui.label_3->setText(argList[1]);
+    ui.label_4->setText(argList[2]);
     
-    //starProcess();
+    starProcess(this->filePath,this->argList);
     return 0;
 }
 
@@ -59,7 +108,7 @@ int QtVisualLoader1::starProcess(QString filePath, QStringList argList) {
 	QProcess process;
 
 
-    process.start(filePath, argList);
+    process.start(filePath ,argList);
     	// µÈ´ý³ÌÐòÆô¶¯
     if (!process.waitForStarted()) {
 		qInfo() << "Failed to start the process.";
