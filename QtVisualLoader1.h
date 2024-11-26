@@ -32,7 +32,7 @@ public:
     int receivArgvector(QString argv1, QString argv2, QString argv3);
     int receivArgvector(QStringList argv);
 
-    int starProcess();
+    int starProcess(QString filePath, QStringList argList);
 
 private slots:
     int button0Pressed();

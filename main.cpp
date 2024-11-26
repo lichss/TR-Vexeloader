@@ -2,13 +2,25 @@
 #include <QtWidgets/QApplication>
 
 
-#include <String>
+//#include <String>
+
+
+#include "processcmdset.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QtVisualLoader1 w;
 
+    PROCESSL::ProcessCmdset pcmd;
+    QString filepath;
+    QStringList arglist;
+    pcmd.readJson("./cmdset.json",filepath,arglist);
+
+    qInfo() << filepath;
+    qInfo() << arglist[0] << arglist[1];
+
+    
     qInfo() << argv[1];
     qInfo() << argv[2];
     qInfo() << argv[3];
@@ -31,6 +43,6 @@ int main(int argc, char *argv[])
 
     //w.receivArgvector(argv[1], argv[2], argv[3]);
 
-
+    w.starProcess(filepath,arglist);
     return a.exec();
 }

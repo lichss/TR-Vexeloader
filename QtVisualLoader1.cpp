@@ -50,20 +50,16 @@ int QtVisualLoader1::button0Pressed() {
     ui.label_3->setText(argList[2]);
     ui.label_4->setText(argList[3]);
     
-    starProcess();
+    //starProcess();
     return 0;
 }
 
-int QtVisualLoader1::starProcess() {
+int QtVisualLoader1::starProcess(QString filePath, QStringList argList) {
 
 	QProcess process;
-    QString programPathName = "D:\\MSCSoftware\\Adams\\2018\\common\\mdi.bat";
-    
-    QStringList argus;
-	argus << "aview"  << "ru-st" <<"i";
 
 
-    process.start(programPathName, argus);
+    process.start(filePath, argList);
     	// µÈ´ý³ÌÐòÆô¶¯
     if (!process.waitForStarted()) {
 		qInfo() << "Failed to start the process.";
