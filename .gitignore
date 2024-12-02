@@ -47,7 +47,7 @@ out/
 # 其他编译器/构建工具生成的文件
 *.log
 *.xml
-*.json
+*.loq
 
 # Windows 资源管理器缩略图
 Thumbs.db

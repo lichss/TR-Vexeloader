@@ -1,4 +1,5 @@
 #include "QtVisualLoader1.h"
+#include <QMessagebox>
 #include "processcmdset.h"
 
 QtVisualLoader1::QtVisualLoader1(QWidget *parent)

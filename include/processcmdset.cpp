@@ -57,7 +57,7 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
             qInfo() << "Items:";
             for (const QJsonValue &item : items) {
                 qInfo() << "  -" << item.toString();
-            }
+            }``
         }
     }
     */
@@ -66,6 +66,143 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
 
 	return 0;
 }
+
+int PROCESSL::ProcessCmdset:: record(int index,QString& rfilepath,QStringList& rlist) {
+
+    if (index > 3 || index < 0)
+        return -1;
+
+    rfilepath.clear();
+    rlist.clear();
+
+    switch (index)
+    {
+        case 0:
+            rfilepath = "D:\\MSCSoftware\\Adams\\2018\\common\\mdi.bat";
+            rlist.append("aview");
+            rlist.append("ru-st");
+            rlist.append("i");
+            break;
+        
+        case 1: 
+            rfilepath = "D:\\Program Files\\UGS\\NX 6.0\\UGII\\ugraf.exe";
+            break;
+
+        case 3: 
+            rfilepath = "D:\\Program Files\\ANSYS Inc\\v182\\Framework\\bin\\Win64\\runwb2.exe";
+            break;
+
+        default:
+            break;
+    }
+
+
+
+    return 0;
+}
+
+int PROCESSL::ProcessCmdset:: record(int index) {
+
+    if (index > 3 || index < 0)
+        return -1;
+
+    this->executebleFilePath.clear();
+    this->argList.clear();
+
+    QString rfilepath;
+    QStringList rlist;
+    switch (index)
+    {
+        case 1:
+            rfilepath = "D:\\MSCSoftware\\Adams\\2018\\common\\mdi.bat";
+            rlist.append("aview");
+            rlist.append("ru-st");
+            rlist.append("i");
+            break;
+        
+        case 2: 
+            rfilepath = "D:\\Program Files\\UGS\\NX 6.0\\UGII\\ugraf.exe";
+            break;
+
+        case 3: 
+            rfilepath = "D:\\Program Files\\ANSYS Inc\\v182\\Framework\\bin\\Win64\\runwb2.exe";
+            break;
+
+        default:
+            break;
+    }
+
+    this->executebleFilePath = rfilepath;
+    this -> argList = rlist;
+        
+    return 0;
+}
+
+
+int PROCESSL::ProcessCmdset::startProcess(QString filePath, QStringList argList) {
+
+	QProcess process;
+
+
+    process.start(filePath ,argList);
+    	// 等待程序启动
+    if (!process.waitForStarted()) {
+		qInfo() << "Failed to start the process.";
+
+        return -1;
+    }
+
+    // 如果需要等待程序结束，可以使用 waitForFinished()
+    if (!process.waitForFinished()) {
+        qInfo() << "Process failed to finish.";
+        return -1;
+    }
+
+
+
+    return 0;
+}
+
+
+int PROCESSL::ProcessCmdset::startProcess() {
+
+	QProcess process;
+
+
+    process.start(this->executebleFilePath ,this->argList);
+    	// 等待程序启动
+    if (!process.waitForStarted()) {
+		qInfo() << "Failed to start the process.";
+
+        return -1;
+    }
+
+    // 如果需要等待程序结束，可以使用 waitForFinished()
+    if (!process.waitForFinished()) {
+        qInfo() << "Process failed to finish.";
+        return -1;
+    }
+
+
+
+    return 0;
+}
+
+QString searchEnvir(QString envirKey) {
+		QString value;
+		QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+		if (!env.contains(envirKey)) {
+			//   qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
+			return "";
+		}
+
+		//qInfo() << "有环境变量:\nfind env.as:\n" << env.value("UGS_ROUTER_PATH");
+		return env.value(envirKey);
+
+
+		return 0;
+	}
+
 
 /*
  用json指定 可执行文件的路径 启动参数
