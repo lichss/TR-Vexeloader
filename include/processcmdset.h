@@ -12,6 +12,12 @@
 #include <QSettings>
 #include <QProcessEnvironment>
 
+#define N_PROCESS_ADAMS 1
+#define N_PROCESS_UGII 2
+#define N_PROCESS_ANSYS 3
+#define N_PROCESS_ADAMS 0
+
+
 namespace PROCESSL {
 
 	class ProcessCmdset {
@@ -31,6 +37,8 @@ namespace PROCESSL {
 
 		int startProcess(QString filePath, QStringList argList);
 		int startProcess();
+		int parseIniFile();
+
 	};
 
 
@@ -39,4 +47,5 @@ namespace PROCESSL {
 
 };
 QString searchEnvir(QString envirKey);
+bool fileExists(const QString& fileName);
 

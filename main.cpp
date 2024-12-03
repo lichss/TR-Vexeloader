@@ -20,36 +20,30 @@ int main(int argc, char *argv[])
     
 
 
-    int gui=1;
+    int gui=0;
     QString gui_mode(argv[1]);
     if (gui_mode == QString("-gui")) {
 
         QMessageBox::warning(nullptr, "Alert", "GUI mode.");
-                
-
+        
     }
         //return 0;
    
-    qInfo()<<"argv 1" << argv[1];
-    qInfo()<<"argv 2" << argv[2];
+    //qInfo()<<"argv 1" << argv[1];
+    //qInfo()<<"argv 2" << argv[2];
 
-    QStringList qss = {
-        argv[0],
-        argv[1],
-        argv[2],
+    //QStringList qss = {
+    //    argv[0],
+    //    argv[1],
+    //    argv[2],
+    //
+    //};
+
     
-    };
-
-    w.receivArgvector(qss);
-    if (0) {
+    if (gui_mode == QString("-gui")) {
         w.show();
 
-        QString agrs1 = argv[1];
-        QString agrs2 = argv[2];
-        QString agrs3 = argv[2];
-
-        //w.receivArgvector(argv[1], argv[2], argv[3]);
-
+        
         w.starProcess(filepath, arglist);
         return a.exec();
     }
@@ -57,15 +51,21 @@ int main(int argc, char *argv[])
         QString envirKey = 
         searchEnvir("ababa");
         
-        if (envirKey.isEmpty()) 
+        if (envirKey.isEmpty()) {
             QMessageBox::warning(nullptr, "Alert", "No environment vairable fond.");
-        
-        
+            
+        }
+        if (fileExists("config.ini")) {
+            QMessageBox::warning(nullptr, "Alert", "No NO init file  fond.");
+
+        }
         PROCESSL::ProcessCmdset p;
 
-
-        p.record(1);
-        p.startProcess();
+        p.parseIniFile();
+        //p.record(1);
+        //p.startProcess();
         return 0;
     }
 }
+
+

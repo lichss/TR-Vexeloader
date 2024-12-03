@@ -1,5 +1,5 @@
 #include "processcmdset.h"
-
+#include <QDir>
 PROCESSL::ProcessCmdset::ProcessCmdset()
 {
 }
@@ -31,7 +31,7 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
         qInfo() << "JSON document is not an object";
         return -3;
     }
-
+      
     QJsonObject jsonObject = jsonDoc.object();
     QJsonArray collections = jsonObject.value("collections").toArray();
 
@@ -57,7 +57,7 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
             qInfo() << "Items:";
             for (const QJsonValue &item : items) {
                 qInfo() << "  -" << item.toString();
-            }``
+            }
         }
     }
     */
@@ -133,7 +133,7 @@ int PROCESSL::ProcessCmdset:: record(int index) {
     }
 
     this->executebleFilePath = rfilepath;
-    this -> argList = rlist;
+    this->argList = rlist;
         
     return 0;
 }
@@ -189,26 +189,51 @@ int PROCESSL::ProcessCmdset::startProcess() {
 }
 
 QString searchEnvir(QString envirKey) {
-		QString value;
-		QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-		if (!env.contains(envirKey)) {
-			//   qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
-			return "";
-		}
-
-		//qInfo() << "有环境变量:\nfind env.as:\n" << env.value("UGS_ROUTER_PATH");
-		return env.value(envirKey);
-
-
-		return 0;
+	QString value;
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	if (!env.contains(envirKey)) {
+		//   qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
+		return "";
 	}
 
-
-/*
- 用json指定 可执行文件的路径 启动参数
- 如果需要保存，也直接保存在json文件中
- 设想是为七个需要启动的文件各自创建一个此类  ProcessCmdset类 
- 各自记录
+	//qInfo() << "有环境变量:\nfind env.as:\n" << env.value("UGS_ROUTER_PATH");
+	return env.value(envirKey);
 
 
-*/
+	return 0;
+}
+
+int PROCESSL::ProcessCmdset::parseIniFile() {
+    QString configFilePath = "config.ini"; 
+
+    // 使用QSettings加载INI文件
+    QSettings settings(configFilePath, QSettings::IniFormat);
+
+    // 读取Application部分的信息
+    QString appName = settings.value("Application/Name").toString();
+    QString appPath = settings.value("Application/Path").toString();
+    QString appArgStr = settings.value("Application/Arguments").toString();
+
+    QStringList appArgs = appArgStr.split(" ", Qt::SkipEmptyParts);
+    //appPath = QDir::toNativeSeparators(appPath);
+
+    // 输出读取到的信息
+    qDebug() << "Application Name:" << appName;
+    qDebug() << "Application Path:" << appPath ;
+    qDebug() << "Application Arguments:" << appArgs;
+
+    executebleFilePath = appPath;
+    argList = appArgs;
+
+    return 0;
+}
+
+bool fileExists(const QString &fileName)
+{
+    QDir currentDir = QDir::current();
+
+    QFileInfo fileInfo(currentDir, fileName);
+
+    // 返回文件是否存在
+    return fileInfo.exists() && fileInfo.isFile();
+}

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QProcess>
 #include <QDebug>
+#include <QDir>
 #include <QPushbutton>
 #include <QSettings>
 #include <QFiledialog>
