@@ -46,21 +46,6 @@ int PROCESSL::ProcessCmdset::readJson(const QString fileName,QString& rfilepath,
         rlist.append(arg.toString());
     }
 
-    /*
-    for (const QJsonValue &value : collections) {
-        if (value.isObject()) {
-            QJsonObject collection = value.toObject();
-            QString filepath= collection.value("filepath").toString();
-            QJsonArray items = collection.value("items").toArray();
-
-            qInfo() << "FilePath:" << filepath;
-            qInfo() << "Items:";
-            for (const QJsonValue &item : items) {
-                qInfo() << "  -" << item.toString();
-            }
-        }
-    }
-    */
 
     qInfo() << "open file well.\n";
 
@@ -182,34 +167,58 @@ int PROCESSL::ProcessCmdset::startProcess() {
         qInfo() << "Process failed to finish.";
         return -1;
     }
-
-
-
     return 0;
 }
 
-QString searchEnvir(QString envirKey) {
+QString PROCESSL::ProcessCmdset::searchEnvir() {
 	QString value;
+
+    QString envirKey;
+    
+    if (this->processMode == QString(ADAMS_PROCESS_MODE))
+        envirKey = ADAMS_ENVIR_KEY;
+    else if (this->processMode == QString(UGS_PROCESS_MODE))
+        envirKey = UGS_ENVIR_KEY;
+    else if (this->processMode == QString(ANSYS_PROCESS_MODE))
+        envirKey = ANSYS_ENVIR_KEY;
+    else {
+        QMessageBox::warning(nullptr, "Alert", "Wrong process mode.Please check 'config.ini.'");
+        return "";     }
+
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	if (!env.contains(envirKey)) {
-		//   qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
-		return "";
+		//qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
+        QMessageBox::warning(nullptr, "Alert", "Can not find environment vairable :"+envirKey);
+		return ""; 
 	}
 
-	//qInfo() << "有环境变量:\nfind env.as:\n" << env.value("UGS_ROUTER_PATH");
-	return env.value(envirKey);
+	qInfo() << "有环境变量:\nfind env.as:\n" << env.value(envirKey);
+	
+    this->executebleFilePath = env.value(envirKey);
 
+    if (this->processMode == QString("Adams")) {
+        this->argList.clear();
+        argList.append("aview");
+        argList.append("ru-st");
+        argList.append("i");
+    }
+    else
+        this->argList.clear();
+        
+    return env.value(envirKey);
 
-	return 0;
 }
 
 int PROCESSL::ProcessCmdset::parseIniFile() {
     QString configFilePath = "config.ini"; 
-
+    
+     
     // 使用QSettings加载INI文件
     QSettings settings(configFilePath, QSettings::IniFormat);
 
     // 读取Application部分的信息
+    QString appMode = settings.value("Application/Mode").toString();
+
     QString appName = settings.value("Application/Name").toString();
     QString appPath = settings.value("Application/Path").toString();
     QString appArgStr = settings.value("Application/Arguments").toString();
@@ -218,12 +227,20 @@ int PROCESSL::ProcessCmdset::parseIniFile() {
     //appPath = QDir::toNativeSeparators(appPath);
 
     // 输出读取到的信息
+    qDebug() << "Application Mode:" << appMode;
+
     qDebug() << "Application Name:" << appName;
     qDebug() << "Application Path:" << appPath ;
     qDebug() << "Application Arguments:" << appArgs;
 
-    executebleFilePath = appPath;
-    argList = appArgs;
+    if (appMode.isEmpty()) {
+        QMessageBox::warning(nullptr, "Alert", "read ini file Error.");
+        return -1;
+    }
+    
+    this->processMode = appMode;
+    //executebleFilePath = appPath;
+    //argList = appArgs;
 
     return 0;
 }
@@ -237,3 +254,11 @@ bool fileExists(const QString &fileName)
     // 返回文件是否存在
     return fileInfo.exists() && fileInfo.isFile();
 }
+
+bool showWarnningBox()
+{
+
+    return false;
+}
+
+

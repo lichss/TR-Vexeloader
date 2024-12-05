@@ -2,20 +2,41 @@
 
 
 
-## 介绍
 
-给接口程序配套的进程启动程序。
-做好之后直接把exe丢进去用
 
-## 11-26提交记录
+## 12-5提交记录
 
-先做启动器，再做模型上传什么的。
+程序先检查.ini文件，没有的话会弹提示。
+.ini文件需要指定要启动的是哪一个程序
 
-新建一个类管理启动可执行文件的路径和启动参数。
 
-widget添加radioButton来管理具体启动可执行文件
 
-## 11-26提交记录2
 
-我理解错了。
-后续给他拆拆，不要能一次启动全部的，要分开启动
+示例：
+```
+[Application]
+Mode=Adams
+; 可选项： 'Adams' 、 'UGS' 、'Ansys' 
+```
+ini文件读取的变量名在[processcmdset.h](include\processcmdset.h)中定义，可以通过宏定义修改。
+默认：
+
+``` C++
+#define ADAMS_PROCESS_MODE	"Adams"
+#define UGS_PROCESS_MODE	"UGS"
+#define ANSYS_PROCESS_MODE	"Ansys"
+```
+
+之后检查环境变量来确定文件路径。
+
+可以通过 [processcmdset.h](include\processcmdset.h)的宏定义来改变环境变量的名称。
+
+默认：
+``` C++
+#define ADAMS_ENVIR_KEY "ADAMS_LAUNCH_PATH"
+#define UGS_ENVIR_KEY "UGS_LAUNCH_PATH"
+#define ANSYS_ENVIR_KEY "ANSYS_LAUNCH_PATH"
+```
+
+
+附带一个示例[config.ini](config.ini)config.ini文件：

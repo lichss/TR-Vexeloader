@@ -11,20 +11,26 @@
 #include <QProcess>
 #include <QSettings>
 #include <QProcessEnvironment>
+#include <QMessagebox>
 
-#define N_PROCESS_ADAMS 1
-#define N_PROCESS_UGII 2
-#define N_PROCESS_ANSYS 3
-#define N_PROCESS_ADAMS 0
+#define ADAMS_ENVIR_KEY	"ADAMS_LAUNCH_PATH"
+#define UGS_ENVIR_KEY	"UGS_LAUNCH_PATH"
+#define ANSYS_ENVIR_KEY "ANSYS_LAUNCH_PATH"
+
+#define ADAMS_PROCESS_MODE	"Adams"
+#define UGS_PROCESS_MODE	"UGS"
+#define ANSYS_PROCESS_MODE	"Ansys"
 
 
 namespace PROCESSL {
 
 	class ProcessCmdset {
 	public:
+		QString processMode = "Adams";
 		QString executebleFilePath;
+
 		QStringList argList;
-		
+
 	public:
 
 
@@ -38,6 +44,7 @@ namespace PROCESSL {
 		int startProcess(QString filePath, QStringList argList);
 		int startProcess();
 		int parseIniFile();
+		QString searchEnvir();
 
 	};
 
@@ -46,6 +53,6 @@ namespace PROCESSL {
 
 
 };
-QString searchEnvir(QString envirKey);
 bool fileExists(const QString& fileName);
+bool showWarnningBox();
 

@@ -8,7 +8,6 @@
 #include "processcmdset.h"
 
 
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -27,18 +26,8 @@ int main(int argc, char *argv[])
         QMessageBox::warning(nullptr, "Alert", "GUI mode.");
         
     }
-        //return 0;
-   
-    //qInfo()<<"argv 1" << argv[1];
-    //qInfo()<<"argv 2" << argv[2];
-
-    //QStringList qss = {
-    //    argv[0],
-    //    argv[1],
-    //    argv[2],
-    //
-    //};
-
+       
+    PROCESSL::ProcessCmdset p;
     
     if (gui_mode == QString("-gui")) {
         w.show();
@@ -48,22 +37,22 @@ int main(int argc, char *argv[])
         return a.exec();
     }
     else {
-        QString envirKey = 
-        searchEnvir("ababa");
         
-        if (envirKey.isEmpty()) {
-            QMessageBox::warning(nullptr, "Alert", "No environment vairable fond.");
-            
-        }
         if (fileExists("config.ini")) {
-            QMessageBox::warning(nullptr, "Alert", "No NO init file  fond.");
+            //能找到ini文件
+            p.parseIniFile();
 
+            //QMessageBox::warning(nullptr, "Alert", "No No init file  fond.");
         }
-        PROCESSL::ProcessCmdset p;
+        else
+           QMessageBox::warning(nullptr, "Alert", "No ini file  fond.");
+        
+		QString envirKey = p.searchEnvir();
+		
+       
+        p.startProcess();
 
-        p.parseIniFile();
-        //p.record(1);
-        //p.startProcess();
+		//QMessageBox::warning(nullptr, "Alert", "No-----------.");
         return 0;
     }
 }
