@@ -39,4 +39,4 @@ ini文件读取的变量名在[processcmdset.h](include\processcmdset.h)中定�
 ```
 
 
-附带一个示例[config.ini](config.ini)config.ini文件：
+附带一个示例[config.ini](config.ini)文件：
